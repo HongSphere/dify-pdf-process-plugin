@@ -1,0 +1,18 @@
+README.md
+  h_b8a5bec9fccfca 74
+tools/pdf_to_png.py
+  h_b8a5bec9fccfca 34,56-75,96-134,141,153-154,195-207
+tools/pdf_to_png.yaml
+  h_b8a5bec9fccfca 39-50
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "292d693237ca6031d336c5f20a4285afd0731a0f",
+  "prompts": {},
+  "humans": {
+    "h_b8a5bec9fccfca": {
+      "author": "zhanghong <zhanghong@meibaokeji.com>"
+    }
+  }
+}
