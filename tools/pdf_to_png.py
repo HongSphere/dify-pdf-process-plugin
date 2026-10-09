@@ -31,6 +31,7 @@ class PDFToPNGTool(Tool):
             tool_parameters (dict[str, Any]): Parameters for the tool
                 - pdf_content (File): Dify File object containing the PDF
                 - zoom (float): Zoom factor for image quality (default is 2)
+                - max_image_size (Optional[float]): Maximum image size limit in MB (optional)
             user_id (Optional[str]): The ID of the user invoking the tool
             conversation_id (Optional[str]): The conversation ID
             app_id (Optional[str]): The app ID
@@ -52,7 +53,26 @@ class PDFToPNGTool(Tool):
 
             # Get zoom parameter with default value
             zoom_param = tool_parameters.get("zoom")
-            zoom = 2 if zoom_param is None else int(zoom_param)
+            try:
+                zoom = 2.0 if zoom_param is None else float(zoom_param)
+                if zoom <= 0:
+                    zoom = 2.0
+            except (ValueError, TypeError):
+                zoom = 2.0
+
+            # Get max_image_size parameter (in MB)
+            max_image_size_param = tool_parameters.get("max_image_size")
+            max_size_bytes: Optional[int] = None
+            if (
+                max_image_size_param is not None
+                and str(max_image_size_param).strip() != ""
+            ):
+                try:
+                    max_size_val = float(max_image_size_param)
+                    if max_size_val > 0:
+                        max_size_bytes = int(max_size_val * 1024 * 1024)
+                except (ValueError, TypeError):
+                    max_size_bytes = None
 
             original_filename = pdf_content.filename or "document"
             base_filename = original_filename.rsplit(".", 1)[0]
@@ -73,26 +93,52 @@ class PDFToPNGTool(Tool):
             # Process each page
             for page_num in range(total_pages):
                 page = doc.load_page(page_num)
-                mat = pymupdf.Matrix(zoom, zoom)
-                pix = page.get_pixmap(matrix=mat)
+                current_zoom = zoom
+                min_zoom = 0.1
+                max_attempts = 15
+                attempt = 0
 
-                # Convert PyMuPDF pixmap to PIL Image
-                img = Image.frombytes("RGB", [pix.width, pix.height], pix.samples)
+                final_blob = b""
+                while True:
+                    mat = pymupdf.Matrix(current_zoom, current_zoom)
+                    pix = page.get_pixmap(matrix=mat)
 
-                # Release pixmap memory
-                pix = None
+                    # Convert PyMuPDF pixmap to PIL Image
+                    img = Image.frombytes("RGB", [pix.width, pix.height], pix.samples)
 
-                # Save PIL Image to an in-memory bytes buffer
-                img_buffer = io.BytesIO()
-                img.save(img_buffer, format="PNG")
-                img_buffer.seek(0)
+                    # Release pixmap memory
+                    pix = None
+
+                    # Save PIL Image to an in-memory bytes buffer
+                    img_buffer = io.BytesIO()
+                    img.save(img_buffer, format="PNG")
+                    img_bytes = img_buffer.getvalue()
+                    img_size = len(img_bytes)
+                    final_blob = img_bytes
+
+                    # Check if size constraint is satisfied
+                    if max_size_bytes is None or img_size <= max_size_bytes:
+                        break
+
+                    attempt += 1
+                    if current_zoom <= min_zoom or attempt >= max_attempts:
+                        break
+
+                    # Estimate new zoom factor based on image size ratio (area ~ zoom^2)
+                    ratio = (max_size_bytes / img_size) ** 0.5
+                    # Apply a conservative dampening factor (0.95) and limit step ratio to <= 0.85
+                    scale_step = min(0.85, max(0.2, ratio * 0.95))
+                    next_zoom = round(current_zoom * scale_step, 2)
+                    if next_zoom >= current_zoom:
+                        next_zoom = round(current_zoom - 0.1, 2)
+                    current_zoom = max(min_zoom, next_zoom)
 
                 # Create filename for this page
                 output_filename = f"{base_filename}_page{page_num + 1}.png"
 
                 # Send the PNG image
                 yield self.create_blob_message(
-                    blob=img_buffer.getvalue(),
+                    blob=final_blob,
                     meta={"mime_type": "image/png", "file_name": output_filename},
                 )
 
@@ -101,18 +147,13 @@ class PDFToPNGTool(Tool):
                 f"Successfully converted {total_pages} pages to PNG images."
             )
 
-            # Clean up
-            if doc:
-                doc.close()
-
         except ValueError:
-            if doc:
-                doc.close()
             raise
         except Exception as e:
+            raise Exception(f"Error converting PDF to PNG: {str(e)}")
+        finally:
             if doc:
                 doc.close()
-            raise Exception(f"Error converting PDF to PNG: {str(e)}")
 
     def get_runtime_parameters(
         self,
@@ -150,6 +191,19 @@ class PDFToPNGTool(Tool):
                 form=ToolParameter.ToolParameterForm.FORM,
                 required=False,
                 default=2,
+            ),
+            ToolParameter(
+                name="max_image_size",
+                label=I18nObject(
+                    en_US="Max Image Size (MB)", zh_Hans="图片大小限制 (MB)"
+                ),
+                human_description=I18nObject(
+                    en_US="Max size in MB (auto-downgrades if exceeded, optional)",
+                    zh_Hans="单张图片大小上限（MB），超限自动降级，留空不限制",
+                ),
+                type=ToolParameter.ToolParameterType.NUMBER,
+                form=ToolParameter.ToolParameterForm.FORM,
+                required=False,
             ),
         ]
         return parameters

@@ -36,3 +36,15 @@ parameters:
   required: false
   type: number
   default: 2
+- form: llm
+  human_description:
+    en_US: Max size in MB (auto-downgrades if exceeded, optional)
+    zh_Hans: 单张图片大小上限（MB），超限自动降级，留空不限制
+  label:
+    en_US: Max Image Size (MB)
+    zh_Hans: 图片大小限制 (MB)
+  llm_description: Max size in MB for each PNG image. If exceeded, zoom factor will automatically downgrade. Leave empty for no limit.
+  name: max_image_size
+  required: false
+  type: number
+

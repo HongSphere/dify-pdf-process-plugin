@@ -71,6 +71,7 @@ Parameters:
 
 - **PDF Content**: The input PDF file (required)
 - **Zoom Factor**: Quality control zoom factor (optional, defaults to 2)
+- **Max Image Size (MB)**: Max size in MB (auto-downgrades if exceeded, optional)
 
 ![PDF to PNG Converter Interface](./_assets/pdf_to_png.png)
 
