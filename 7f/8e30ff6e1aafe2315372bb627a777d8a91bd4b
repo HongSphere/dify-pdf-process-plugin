@@ -1,0 +1,28 @@
+README.md
+  h_b8a5bec9fccfca 94,98
+manifest.yaml
+  h_b8a5bec9fccfca 1-2,8-9,12-13,17,19,22,33,35
+provider/pdf_process.yaml
+  h_b8a5bec9fccfca 5,12-15
+tools/pdf_multi_pages_extractor.yaml
+  h_b8a5bec9fccfca 10
+tools/pdf_page_counter.yaml
+  h_b8a5bec9fccfca 10
+tools/pdf_single_page_extractor.yaml
+  h_b8a5bec9fccfca 10
+tools/pdf_splitter.yaml
+  h_b8a5bec9fccfca 10
+tools/pdf_to_png.yaml
+  h_b8a5bec9fccfca 10
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "7f8e30ff6e1aafe2315372bb627a777d8a91bd4b",
+  "prompts": {},
+  "humans": {
+    "h_b8a5bec9fccfca": {
+      "author": "zhanghong <zhanghong@meibaokeji.com>"
+    }
+  }
+}
