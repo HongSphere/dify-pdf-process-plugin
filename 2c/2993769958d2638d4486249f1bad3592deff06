@@ -1,0 +1,66 @@
+.difyignore
+  h_b8a5bec9fccfca 1-17
+.env.example
+  h_b8a5bec9fccfca 1-4
+.github/ISSUE_TEMPLATE/bug_report.yml
+  h_b8a5bec9fccfca 1-71
+.github/ISSUE_TEMPLATE/config.yml
+  h_b8a5bec9fccfca 1
+.github/ISSUE_TEMPLATE/feature_request.yml
+  h_b8a5bec9fccfca 1-32
+.github/workflows/lint.yml
+  h_b8a5bec9fccfca 1-30
+.gitignore
+  h_b8a5bec9fccfca 1-11
+LICENSE
+  h_b8a5bec9fccfca 1-62
+PRIVACY.md
+  h_b8a5bec9fccfca 1-34
+README.md
+  h_b8a5bec9fccfca 1-97
+TODO.md
+  h_b8a5bec9fccfca 1-195
+_assets/icon.svg
+  h_b8a5bec9fccfca 1-4
+main.py
+  h_b8a5bec9fccfca 1-6
+manifest.yaml
+  h_b8a5bec9fccfca 1-35
+provider/pdf_process.py
+  h_b8a5bec9fccfca 1-7
+provider/pdf_process.yaml
+  h_b8a5bec9fccfca 1-23
+requirements.txt
+  h_b8a5bec9fccfca 1-3
+tools/pdf_multi_pages_extractor.py
+  h_b8a5bec9fccfca 1-272
+tools/pdf_multi_pages_extractor.yaml
+  h_b8a5bec9fccfca 1-50
+tools/pdf_page_counter.py
+  h_b8a5bec9fccfca 1-111
+tools/pdf_page_counter.yaml
+  h_b8a5bec9fccfca 1-26
+tools/pdf_single_page_extractor.py
+  h_b8a5bec9fccfca 1-167
+tools/pdf_single_page_extractor.yaml
+  h_b8a5bec9fccfca 1-37
+tools/pdf_splitter.py
+  h_b8a5bec9fccfca 1-151
+tools/pdf_splitter.yaml
+  h_b8a5bec9fccfca 1-26
+tools/pdf_to_png.py
+  h_b8a5bec9fccfca 1-155
+tools/pdf_to_png.yaml
+  h_b8a5bec9fccfca 1-38
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "2c2993769958d2638d4486249f1bad3592deff06",
+  "prompts": {},
+  "humans": {
+    "h_b8a5bec9fccfca": {
+      "author": "zhanghong <zhanghong@meibaokeji.com>"
+    }
+  }
+}
