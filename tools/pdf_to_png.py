@@ -124,10 +124,10 @@ class PDFToPNGTool(Tool):
                     if current_zoom <= min_zoom or attempt >= max_attempts:
                         break
 
-                    # Estimate new zoom factor based on image size ratio (area ~ zoom^2)
+                    # Estimate target zoom factor directly to reach size constraint in one step
+                    # Using area scaling ratio with a 0.88 safety margin for PNG non-linear compression
                     ratio = (max_size_bytes / img_size) ** 0.5
-                    # Apply a conservative dampening factor (0.95) and limit step ratio to <= 0.85
-                    scale_step = min(0.85, max(0.2, ratio * 0.95))
+                    scale_step = max(0.1, ratio * 0.88)
                     next_zoom = round(current_zoom * scale_step, 2)
                     if next_zoom >= current_zoom:
                         next_zoom = round(current_zoom - 0.1, 2)
