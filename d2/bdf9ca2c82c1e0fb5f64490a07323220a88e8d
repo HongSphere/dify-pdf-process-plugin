@@ -1,0 +1,14 @@
+tools/pdf_to_png.py
+  h_b8a5bec9fccfca 101-115
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "d2bdf9ca2c82c1e0fb5f64490a07323220a88e8d",
+  "prompts": {},
+  "humans": {
+    "h_b8a5bec9fccfca": {
+      "author": "zhanghong <zhanghong@meibaokeji.com>"
+    }
+  }
+}
