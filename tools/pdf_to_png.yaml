@@ -7,7 +7,7 @@ extra:
   python:
     source: tools/pdf_to_png.py
 identity:
-  author: kalochin
+  author: zhanghong
   label:
     en_US: PDF to PNG Converter
     zh_Hans: PDF转PNG转换器

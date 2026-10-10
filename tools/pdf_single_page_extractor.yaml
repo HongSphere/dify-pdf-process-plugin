@@ -7,7 +7,7 @@ extra:
   python:
     source: tools/pdf_single_page_extractor.py
 identity:
-  author: kalochin
+  author: zhanghong
   label:
     en_US: PDF Single Page Extractor
     zh_Hans: PDF 单页提取器

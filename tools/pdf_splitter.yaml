@@ -7,7 +7,7 @@ extra:
   python:
     source: tools/pdf_splitter.py
 identity:
-  author: kalochin
+  author: zhanghong
   label:
     en_US: PDF Splitter
     zh_Hans: PDF 分割器

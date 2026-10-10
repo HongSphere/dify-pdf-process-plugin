@@ -7,7 +7,7 @@ extra:
   python:
     source: tools/pdf_multi_pages_extractor.py
 identity:
-  author: kalochin
+  author: zhanghong
   label:
     en_US: PDF Multi Pages Extractor
     zh_Hans: PDF 多页提取器
