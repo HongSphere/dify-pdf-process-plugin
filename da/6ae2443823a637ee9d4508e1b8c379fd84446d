@@ -1,0 +1,14 @@
+.difyignore
+  h_b8a5bec9fccfca 17-23
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "da6ae2443823a637ee9d4508e1b8c379fd84446d",
+  "prompts": {},
+  "humans": {
+    "h_b8a5bec9fccfca": {
+      "author": "zhanghong <zhanghong@meibaokeji.com>"
+    }
+  }
+}
