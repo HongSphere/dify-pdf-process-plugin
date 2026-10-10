@@ -15,3 +15,9 @@ TODO.md
 .gitignore
 
 .ruff_cache
+
+.git/
+
+*.difypkg
+
+_assets/*.png
