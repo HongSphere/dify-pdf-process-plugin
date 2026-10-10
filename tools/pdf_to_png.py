@@ -98,6 +98,21 @@ class PDFToPNGTool(Tool):
                 max_attempts = 15
                 attempt = 0
 
+                # If a size limit is configured, perform a zero-overhead physical pre-check:
+                # Even under an extremely optimistic 1:6 PNG compression ratio,
+                # each byte of compressed file corresponds to at most ~2 raw RGB pixels.
+                # If initial pixels exceed max_size_bytes * 2, it is physically impossible
+                # to fit within max_image_size. Pre-clip initial zoom to avoid rendering
+                # a guaranteed-to-fail giant image (e.g. 100M+ pixels) that takes 30s+ to compress.
+                if max_size_bytes is not None:
+                    page_area = page.rect.width * page.rect.height
+                    if page_area > 0:
+                        max_possible_pixels = max_size_bytes * 2
+                        current_pixels = page_area * (current_zoom ** 2)
+                        if current_pixels > max_possible_pixels:
+                            pre_clip_zoom = round((max_possible_pixels / page_area) ** 0.5, 2)
+                            current_zoom = max(min_zoom, min(current_zoom, pre_clip_zoom))
+
                 final_blob = b""
                 while True:
                     mat = pymupdf.Matrix(current_zoom, current_zoom)
